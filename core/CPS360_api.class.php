@@ -1,5 +1,5 @@
 <?PHP
-require_once('CPS360_model.class.php');
+require_once('CPS360_models.class.php');
 require_once('CPS360_plugin.class.php');
 
 class CPS360_api{
@@ -271,7 +271,7 @@ class CPS360_api{
 	}
 
 	static private function _plugin_load(){
-		require('plugins/'.CPS360_config::PLUGIN_NAME.'.php');
+		require('plugin/'.CPS360_config::PLUGIN_NAME.'.php');
 		$classname = CPS360_config::PLUGIN_NAME;
 		return new $classname;
 	}

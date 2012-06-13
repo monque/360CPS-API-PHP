@@ -15,10 +15,56 @@ class CPS360_config{
 	//Cookie的有效期长,由商务上确定，一般是30天
 	const RD				= '30';
 
-	//佣金比例：Array( 商品分类id => 佣金比例 )，商品分类id为0时为默认。
-	static public function COMMRATE(){
+	/*
+	 * 佣金比例计算
+	 * 
+	 * 注意：自行开发请参考下方例子
+	 *
+	 * $product object 商品对象
+	 * $order object 订单对象
+	 *
+	 * return float 返回佣金比例
+	 *
+	 */
+	static public function COMMRATE($product,$order){
+		$rate = false;
 
-		$rate = 0.1;
+		/*
+		注意：
+		1.在此处可以通过 $order->attr('extraparam') 方法调用从Plugin传递的extraparam参数
+		*/
+
+		/*
+		方法一
+		佣金比例按商品分类制定
+		switch($product->attr('cateid')){
+			case 1:
+				$rate = 0.1;
+				break;
+			default:
+				$rate = 0.8;
+		}
+		*/
+		
+		/*
+		方法二
+		佣金比例按订单总价制定
+		if($order->attr('total_price') >= 0 && $order->attr('total_price') < 100){
+			$rate = 0.01;
+		}elseif($order->attr('total_price') >= 100 && $order->attr('total_price') < 1000){
+			$rate = 0.1;
+		}elseif($order->attr('total_price') >= 1000){
+			$rate = 0.2;
+		}
+		*/
+		
+		/*
+		方法三
+		固定金额佣金
+		$comm = 100;
+		$rate = CPS360_api::round($comm / $order->attr('total_price'),6);
+		*/
+		
 
 		return $rate;
 	}
@@ -26,7 +72,7 @@ class CPS360_config{
 	/********************************* CPS 接口设置 *********************************/
 
 	//插件名称，路径为"plugins/{PLUGIN_NAME}"，类名为"{PLUGIN_NAME}"
-	const PLUGIN_NAME		= 'CPS360_plugin_ecshop';
+	const PLUGIN_NAME		= 'CPS360_plugin_sample';
 
 	//Cookie名称
 	const COOKIE_NAME		= 'cpsinfo';
