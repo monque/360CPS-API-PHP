@@ -72,7 +72,7 @@ class CPS360_config{
 	/********************************* CPS 接口设置 *********************************/
 
 	//插件名称，路径为"plugins/{PLUGIN_NAME}"，类名为"{PLUGIN_NAME}"
-	const PLUGIN_NAME		= 'CPS360_plugin_sample';
+	const PLUGIN_NAME		= 'CPS360_plugin_api';
 
 	//Cookie名称
 	const COOKIE_NAME		= 'cpsinfo';
