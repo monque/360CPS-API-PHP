@@ -1,31 +1,31 @@
 360CPS API(PHP)
 ==============
 
-¼ò½é
+ç®€ä»‹
 -------------
-±¾¿ª·¢°üÊÇ»ùÓÚ360CPS¿ª·¢ÎÄµµÊµÏÖµÄÒ»¸ö¼òµ¥¿ò¼Ü£¬¿ª·¢ÈËÔ±¿ÉÒÔÍ¨¹ıĞŞ¸Ä¸Ã¿ò¼ÜµÄ api_config.php¡¢plugin/CPS360_plugin_api.php ÎÄ¼şÀ´ÊµÏÖÖ÷ÒªµÄCPS½Ó¿Ú¹¦ÄÜ¡£
+æœ¬å¼€å‘åŒ…æ˜¯åŸºäº360CPSå¼€å‘æ–‡æ¡£å®ç°çš„ä¸€ä¸ªç®€å•æ¡†æ¶ï¼Œå¼€å‘äººå‘˜å¯ä»¥é€šè¿‡ä¿®æ”¹è¯¥æ¡†æ¶çš„ api_config.phpã€plugin/CPS360_plugin_api.php æ–‡ä»¶æ¥å®ç°ä¸»è¦çš„CPSæ¥å£åŠŸèƒ½ã€‚
 
-½Ó¿ÚµØÖ·
+æ¥å£åœ°å€
 -------------
-	1£©·ÃÎÊÌø×ª½Ó¿Ú£ºhttp://example.com/360cps/api_redirect.php
-	2£©¶©µ¥²éÑ¯½Ó¿Ú: http://example.com/360cps/api_order.php
-	3£©¶ÔÕË²éÑ¯½Ó¿Ú: http://example.com/360cps/api_check.php
+	1ï¼‰è®¿é—®è·³è½¬æ¥å£ï¼šhttp://example.com/360cps/api_redirect.php
+	2ï¼‰è®¢å•æŸ¥è¯¢æ¥å£: http://example.com/360cps/api_order.php
+	3ï¼‰å¯¹è´¦æŸ¥è¯¢æ¥å£: http://example.com/360cps/api_check.php
 
-ÌØ±ğËµÃ÷£ºÓÃ»§ÏÂ¶©µ¥Ê±¿ÉÒÔÍ¨¹ıµ÷ÓÃ$CPS360_plugin_api->order_save()·½·¨À´¼ÇÂ¼CPSµÄ¶©µ¥
+ç‰¹åˆ«è¯´æ˜ï¼šç”¨æˆ·ä¸‹è®¢å•æ—¶å¯ä»¥é€šè¿‡è°ƒç”¨$CPS360_plugin_api->order_save()æ–¹æ³•æ¥è®°å½•CPSçš„è®¢å•
 
 
-ÎÄ¼şËµÃ÷
+æ–‡ä»¶è¯´æ˜
 -------------
-	1£©core/CPS360_api.class.php		½Ó¿ÚºËĞÄÀà
-	2£©core/CPS360_models.class.php	¶©µ¥Ä£ĞÍ
-	3£©core/CPS360_plugin.class.php	²å¼şÄ£ĞÍ
-	4£©plugin/CPS360_plugin_api.php	²å¼şÄ£°å£¨ĞèĞŞ¸Ä£©
-	5£©api_config.php					½Ó¿ÚÅäÖÃĞÅÏ¢£¨ĞèĞŞ¸Ä£©
-	6£©api_redirect.php				·ÃÎÊÌø×ª½Ó¿Ú
-	7£©api_order.php					¶©µ¥²éÑ¯½Ó¿Ú
-	8£©api_check.php					¶ÔÕË²éÑ¯½Ó¿Ú
+	1ï¼‰core/CPS360_api.class.php		æ¥å£æ ¸å¿ƒç±»
+	2ï¼‰core/CPS360_models.class.php	è®¢å•æ¨¡å‹
+	3ï¼‰core/CPS360_plugin.class.php	æ’ä»¶æ¨¡å‹
+	4ï¼‰plugin/CPS360_plugin_api.php	æ’ä»¶æ¨¡æ¿ï¼ˆéœ€ä¿®æ”¹ï¼‰
+	5ï¼‰api_config.php					æ¥å£é…ç½®ä¿¡æ¯ï¼ˆéœ€ä¿®æ”¹ï¼‰
+	6ï¼‰api_redirect.php				è®¿é—®è·³è½¬æ¥å£
+	7ï¼‰api_order.php					è®¢å•æŸ¥è¯¢æ¥å£
+	8ï¼‰api_check.php					å¯¹è´¦æŸ¥è¯¢æ¥å£
 
 
-¿ª·¢ÎÄµµ
+å¼€å‘æ–‡æ¡£
 -------------
 http://open.union.360.cn/apidoc
