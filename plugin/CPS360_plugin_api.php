@@ -3,19 +3,19 @@ class CPS360_plugin_api extends CPS360_plugin{
 
 	/********************************* User Define *********************************/
 
-	private function order($method,$params){
+	private function _order($method,$params){
 		
 		//TODO:获取订单数据
 		$orderlist = array(		
 			
 			//订单数据格式示例
 			array (
-				'qid'				=> '',													//CPS信息：360用户ID
-				'qihoo_id'			=> 36000,												//CPS信息：360业务编号
-				'ext'				=> '1339039506|0|0|0|152917633|36000|c4392',			//CPS信息：360CPS扩展字段
+				'qid'				=> '',													//CPS信息：360用户ID（来自跳转时传递的数据）
+				'qihoo_id'			=> 36000,												//CPS信息：360业务编号（来自跳转时传递的数据）
+				'ext'				=> '1339039506|0|0|0|152917633|36000|c4392',			//CPS信息：360CPS扩展字段（来自跳转时传递的数据）
 				'order_id'			=> '2012060712465',										//订单Id
-				'order_time'		=> '1339036840',										//订单下单时间
-				'order_updtime'		=> '1339036840',										//订单最后更新时间
+				'order_time'		=> '1339036840',										//订单下单时间（格式：时间戳、YYYY-MM-DD HH-II-SS）
+				'order_updtime'		=> '1339036840',										//订单最后更新时间（格式：时间戳、YYYY-MM-DD HH-II-SS）
 				'server_price'		=> 10.00,												//订单服务费、运费、手续费等附加费用
 				'coupon'			=> 100,													//优惠劵、代金卷金额
 				'total_price'		=> 100,													//订单总价（不含服务费用，不含优惠劵金额）
@@ -23,13 +23,13 @@ class CPS360_plugin_api extends CPS360_plugin{
 				//订单内商品详情
 				'products'			=> array (
 											0 => array (
-												'id' => 'ECS000001',						//商品Id
-												'name' => '望远镜',							//商品名称
-												'url' => 'http://www.domain.com/?id=1',		//商品URL
-												'cateid' => '1',							//商品分类Id
-												'catename' => '测试',						//商品分类名称
-												'price' => '100.00',						//商品单价
-												'quantity' => '2',							//商品数量
+												'id'		=> 'ECS000001',					//商品Id
+												'name'		=> '望远镜',					//商品名称
+												'url'		=> 'http://domain.com/?id=1',	//商品URL
+												'cateid'	=> '1',							//商品分类Id
+												'catename'	=> '测试',						//商品分类名称
+												'price'		=> 100.00,						//商品单价
+												'quantity'	=> 2,							//商品数量
 											),
 											//......
 										),
@@ -50,7 +50,7 @@ class CPS360_plugin_api extends CPS360_plugin{
 		return $result;
 	}
 
-	private function check($params){
+	private function _check($params){
 		
 		//TODO:获取订单数据
 		$orderlist = array(		
@@ -58,8 +58,8 @@ class CPS360_plugin_api extends CPS360_plugin{
 			//订单数据格式示例
 			array (
 				'order_id'			=> '2012060712465',										//订单Id
-				'order_time'		=> '1339036840',										//订单下单时间
-				'order_updtime'		=> '1339036840',										//订单最后更新时间
+				'order_time'		=> '1339036840',										//订单下单时间（格式：时间戳、YYYY-MM-DD HH-II-SS）
+				'order_updtime'		=> '1339036840',										//订单最后更新时间（格式：时间戳、YYYY-MM-DD HH-II-SS）
 				'server_price'		=> 10.00,												//订单服务费、运费、手续费等附加费用
 				'coupon'			=> 100,													//优惠劵、代金卷金额
 				'total_price'		=> 100,													//订单总价（不含服务费用，不含优惠劵金额）
@@ -67,13 +67,13 @@ class CPS360_plugin_api extends CPS360_plugin{
 				//订单内商品详情
 				'products'			=> array (
 											0 => array (
-												'id' => 'ECS000001',						//商品Id
-												'name' => '望远镜',							//商品名称
-												'url' => 'http://www.domain.com/?id=1',		//商品URL
-												'cateid' => '1',							//商品分类Id
-												'catename' => '测试',						//商品分类名称
-												'price' => '100.00',						//商品单价
-												'quantity' => '2',							//商品数量
+												'id'		=> 'ECS000001',					//商品Id
+												'name'		=> '望远镜',					//商品名称
+												'url'		=> 'http://domain.com/?id=1',	//商品URL
+												'cateid'	=> '1',							//商品分类Id
+												'catename'	=> '测试',						//商品分类名称
+												'price'		=> 100.00,						//商品单价
+												'quantity'	=> 2,							//商品数量
 											),
 											//......
 										),
@@ -133,7 +133,7 @@ class CPS360_plugin_api extends CPS360_plugin{
      * return Array 返回订单列表
      */
 	public function order_by_ids($order_ids){
-		return self::order('ids',array(
+		return self::_order('ids',array(
 			'order_ids' => $order_ids
 		));
 	}
@@ -148,7 +148,7 @@ class CPS360_plugin_api extends CPS360_plugin{
      * return Array 返回订单列表
      */
 	public function order_by_time($start_time,$end_time,$last_order_id = ''){
-		return self::order('time',array(
+		return self::_order('time',array(
 			'start_time' => $start_time,
 			'end_time' => $end_time,
 			'last_order_id' => $last_order_id,
@@ -165,7 +165,7 @@ class CPS360_plugin_api extends CPS360_plugin{
      * return Array 返回订单列表
      */
 	public function order_by_updtime($updstart_time,$updend_time,$last_order_id = ''){
-		return self::order('updtime',array(
+		return self::_order('updtime',array(
 			'updstart_time' => $updstart_time,
 			'updend_time' => $updend_time,
 			'last_order_id' => $last_order_id,
@@ -181,7 +181,7 @@ class CPS360_plugin_api extends CPS360_plugin{
      * return Array 返回订单列表
      */
 	public function check_by_month($month,$last_order_id = ''){
-		return self::check(array(
+		return self::_check(array(
 			'month' => $month,
 			'last_order_id' => $last_order_id,
 		));

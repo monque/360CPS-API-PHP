@@ -64,7 +64,7 @@ class CPS360_model_product extends CPS360_model{
 
 	public function __construct($data,$order){
 		$data = $this->_format_trim($data);
-		
+
 		//Info
 		$this->id = $data['id'];
 		$this->name = $data['name'];
@@ -97,7 +97,7 @@ class CPS360_model_product extends CPS360_model{
 	}
 }
 
-class CPS360_model_node extends CPS360_model{	
+class CPS360_model_node extends CPS360_model{
 	protected $order_id;
 	protected $order_time;
 	protected $order_updtime;
@@ -118,7 +118,7 @@ class CPS360_model_node extends CPS360_model{
 	public function __construct($data,$extraparam = ''){
 		//Extraparam
 		$this->extraparam = $extraparam;
-		
+
 		//Order Info
 		$this->order_id = $data['order_id'];
 		$this->order_time = $this->_format_date($data['order_time']);
@@ -126,14 +126,15 @@ class CPS360_model_node extends CPS360_model{
 		$this->status = $data['status'];
 
 		$this->server_price = $this->_format_money($data['server_price']);
-		$this->coupon = $this->_format_money($data['coupon']);
 		$this->total_price = $this->_format_money($data['total_price']);
+		$this->coupon = $this->_format_money($data['coupon']);
+		$this->coupon = $this->coupon > $this->total_price ? $this->total_price : $this->coupon;
 		$this->total_comm = 0;
-		
+
 		//Products
 		$this->product_fill($data['products']);
 	}
-	
+
 	public function product_add($data){
 		$obj = new CPS360_model_product($data,$this);
 		$this->products[] = $obj;
@@ -147,11 +148,11 @@ class CPS360_model_node extends CPS360_model{
 
 	public function product_fill($data){
 		$data = is_array($data) ? $data : array();
-		
+
 		foreach($data as $value){
 			$this->product_add($value);
 		}
-		
+
 		$this->comm_coupon = $this->_format_money($this->coupon * $this->coupon_minrate);
 		$this->total_comm = $this->_format_money($this->total_comm - $this->comm_coupon);
 	}
@@ -162,18 +163,18 @@ class CPS360_model_order extends CPS360_model_node{
 	protected $qid;
 	protected $qihoo_id;
 	protected $ext;
-	
+
 	public function __construct($data,$extraparam = ''){
 		$data = $this->_format_trim($data);
 		parent::__construct($data,$extraparam);
-		
+
 		//CPS Info
 		$this->bid = CPS360_config::BID;
 		$this->qid = $data['qid'];
 		$this->qihoo_id = $data['qihoo_id'];
 		$this->ext = $data['ext'];
 	}
-	
+
 	public function to_xml(){
 		$xmldoc =
 '<order>
@@ -197,7 +198,7 @@ class CPS360_model_order extends CPS360_model_node{
 }
 
 class CPS360_model_check extends CPS360_model_node{
-	
+
 	public function __construct($data,$extraparam = ''){
 		$data = $this->_format_trim($data);
 		parent::__construct($data,$extraparam);

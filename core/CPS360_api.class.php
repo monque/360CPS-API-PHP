@@ -26,7 +26,7 @@ class CPS360_api{
 	static public function redirect(){
 		$params = self::_param_get('redirect');
 		$plugin = self::_plugin_load();
-		
+
 		//Cookie
 		$cookies = array(
 			'id' => '360cps',
@@ -45,11 +45,8 @@ class CPS360_api{
 			'expires' => time() + (86400 * CPS360_config::RD),
 			'path' => '/',
 		);
-		if(self::$DEBUG){
-			self::_debug_output('Cookie Set',$cookie_param);
-		}else{
-			setcookie($cookie_param['name'],$cookie_param['value'],$cookie_param['expires'],$cookie_param['path'],$cookie_param['domain']);
-		}
+		self::_debug_output('Cookie Set',$cookie_param);
+		setcookie($cookie_param['name'],$cookie_param['value'],$cookie_param['expires'],$cookie_param['path'],$cookie_param['domain']);
 
 		//Activetime & Sign
 		$check_activetime = self::_check_activeTime($params['active_time']);
@@ -60,10 +57,8 @@ class CPS360_api{
 			$data_report['userip'] = self::_ip_get();
 			$data_report['useragent'] = $_SERVER['HTTP_USER_AGENT'];
 			self::_http_request(self::REPORT_URL,'post',$data_report);
-			if(self::$DEBUG){
-				self::_debug_output('Error Report',$data_report);
-			}
-			
+			self::_debug_output('Error Report',$data_report);
+
 			//Clear Userinfo
 			$params['qid'] = $params['qmail'] = $params['qname'] = false;
 		}elseif($params['verify']){
@@ -81,10 +76,11 @@ class CPS360_api{
 		}else{
 			$url = CPS360_config::REDIRECT_DEFAULT;
 		}
-		if(self::$DEBUG){
-			self::_debug_output('Header','Location:'.$url);
-		}else{
+
+		if(!self::$DEBUG){
 			header('Location:'.$url);
+		}else{
+			self::_debug_output('Header','Location:'.$url);
 		}
 	}
 
@@ -110,11 +106,7 @@ class CPS360_api{
 
 		//Output
 		$xmldoc = self::_xml_generate($result);
-		if(self::$DEBUG){
-			self::_debug_output('XML',$xmldoc);
-		}else{
-			self::_output($xmldoc);
-		}
+		self::_output($xmldoc);
 	}
 
 	static public function check(){
@@ -133,11 +125,7 @@ class CPS360_api{
 
 		//Output
 		$xmldoc = self::_xml_generate($result);
-		if(self::$DEBUG){
-			self::_debug_output('XML',$xmldoc);
-		}else{
-			self::_output($xmldoc);
-		}
+		self::_output($xmldoc);
 	}
 
 	/********************************* CPS Utility *********************************/
@@ -156,9 +144,7 @@ class CPS360_api{
 			}
 		}
 
-		if(self::$DEBUG){
-			self::_debug_output('Params Get',$params);
-		}
+		self::_debug_output('Params Get',$params);
 
 		return $params;
 	}
@@ -277,22 +263,28 @@ class CPS360_api{
 	}
 
 	static private function _output($content){
-		if(!self::$DEBUG && stripos($content,'<?xml') !== false){
-			header("Content-type: text/xml; charset=utf-8");
+		if(self::$DEBUG){
+			self::_debug_output('Output',$content);
+		}else{
+			if(stripos($content,'<?xml') !== false){
+				header("Content-type: text/xml; charset=utf-8");
+			}
+			echo $content;
+			exit;
 		}
-		echo $content;
-		exit;
 	}
 
 	static private function _debug_output($title,$data){
-		$data = htmlspecialchars(print_r($data,true));
-		echo '<h3>'.$title.'</h3>';
-		echo '<pre>'.$data.'</pre>';
+		if(self::$DEBUG){
+			$data = htmlspecialchars(print_r($data,true));
+			echo '<h3>'.$title.'</h3>';
+			echo '<pre>'.$data.'</pre>';
+		}
 	}
-	
+
 	static private function _verify(){
 		$pathroot = dirname(__FILE__);
-		$content = 
+		$content =
 '<?xml version="1.0" encoding="utf-8"?>
 <verify>
 <version>'.self::VERSION.'</version>
@@ -302,7 +294,7 @@ class CPS360_api{
 <maxnum>'.self::MAXNUM.'</maxnum>
 <sign>
 <api>'.md5(file_get_contents($pathroot.'/CPS360_api.class.php')).'</api>
-<model>'.md5(file_get_contents($pathroot.'/CPS360_model.class.php')).'</model>
+<model>'.md5(file_get_contents($pathroot.'/CPS360_models.class.php')).'</model>
 <plugin>'.md5(file_get_contents($pathroot.'/CPS360_plugin.class.php')).'</plugin>
 </sign>
 </verify>
@@ -353,6 +345,9 @@ class CPS360_api{
 
 	static public function debug($val){
 		self::$DEBUG = $val;
+		if($val){
+			error_reporting(E_ALL);
+		}
 	}
 
 }

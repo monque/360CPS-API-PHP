@@ -1,16 +1,13 @@
 <?PHP
-//FIXME
-error_reporting(E_ALL);
-
 class CPS360_config{
 
 	/********************************* CPS 信息 *********************************/
 
 	//合作编号,由360CPS分配
-	const BID				= '2000285';
+	const BID				= '';
 
 	//密钥,由360CPS系统
-	const CP_KEY			= '10BC5D3FBF881322484F3932BCA52583';
+	const CP_KEY			= '';
 
 	//Cookie的有效期长,由商务上确定，一般是30天
 	const RD				= '30';
@@ -81,6 +78,6 @@ class CPS360_config{
 	const COOKIE_DOMAIN		= 'example.com';
 
 	//默认跳转地址
-	const REDIRECT_DEFAULT	= 'http://www.REDIRECT_DEFAULT.com';
+	const REDIRECT_DEFAULT	= 'http://www.example.com';
 
 }
