@@ -5,10 +5,11 @@ abstract class CPS360_plugin{
      * 保存cps订单，订单保存完毕后调用该函数，如果有CPS的Cookie信息，则将相应CPS信息记录
      *
      * $order_id Integer 反馈订单号
+     * $data Array 订单数据
      *
      * return String 反馈状态
      */
-	abstract public function order_save($order_id);
+	abstract public function order_save($order_id,$data);
 
 	/*
 	 * 用户自动登录，如果用户尚未注册，则通过用户信息自动注册账号

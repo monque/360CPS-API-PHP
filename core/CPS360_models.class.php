@@ -33,13 +33,43 @@ class CPS360_model{
 		return ($val * 100).'%';
 	}
 
-	protected function _format_trim($val){
+	protected function _format_microlist($val,$isprocess = false){
+		if($isprocess){
+			$val = str_replace(array(',','|'),'',$val);
+		}else{
+			$val = $this->_recursionarray($val,'_format_microlist');
+		}
+		
+		return $val;
+	}
+
+	protected function _format_xmlcompatible($val,$isprocess = false){
+		if($isprocess){
+			$val =htmlspecialchars($val);
+		}else{
+			$val = $this->_recursionarray($val,'_format_xmlcompatible');
+		}
+		
+		return $val;
+	}
+
+	protected function _format_trim($val,$isprocess = false){
+		if($isprocess){
+			$val =trim($val);
+		}else{
+			$val = $this->_recursionarray($val,'_format_trim');
+		}
+		
+		return $val;
+	}
+	
+	private function _recursionarray($val,$callback){
 		if(is_array($val)){
 			foreach($val as &$v){
-				$v = $this->_format_trim($v);
+				$v = $this->_recursionarray($v,$callback);
 			}
 		}else{
-			$val = trim($val);
+			$val = $this->$callback($val,true);
 		}
 
 		return $val;
@@ -63,7 +93,7 @@ class CPS360_model_product extends CPS360_model{
 	protected $commamount;
 
 	public function __construct($data,$order){
-		$data = $this->_format_trim($data);
+		$data = $this->_format_microlist($this->_format_xmlcompatible($this->_format_trim($data)));
 
 		//Info
 		$this->id = $data['id'];
@@ -165,7 +195,7 @@ class CPS360_model_order extends CPS360_model_node{
 	protected $ext;
 
 	public function __construct($data,$extraparam = ''){
-		$data = $this->_format_trim($data);
+		$data = $this->_format_xmlcompatible($this->_format_trim($data));
 		parent::__construct($data,$extraparam);
 
 		//CPS Info
@@ -200,7 +230,7 @@ class CPS360_model_order extends CPS360_model_node{
 class CPS360_model_check extends CPS360_model_node{
 
 	public function __construct($data,$extraparam = ''){
-		$data = $this->_format_trim($data);
+		$data = $this->_format_xmlcompatible($this->_format_trim($data));
 		parent::__construct($data,$extraparam);
 	}
 

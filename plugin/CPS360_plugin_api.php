@@ -99,16 +99,18 @@ class CPS360_plugin_api extends CPS360_plugin{
     /*
      * 保存CPS订单，订单保存完毕后调用该函数，如果有CPS的Cookie信息，则将相应CPS信息记录
      *
-     * $order_id Integer 反馈订单号
+     * $order_id Integer 订单号
+     * $data Array 订单数据
      *
      * return String 反馈状态
      */
-	public function order_save($order_id){
+	public function order_save($order_id,$data){
 	    if(!$_COOKIE[CPS360_config::COOKIE_NAME]) return false;
 		$cpsinfo = CPS360_api::unserialize($_COOKIE[CPS360_config::COOKIE_NAME]);
 		if(!$cpsinfo) return false;
 
 		//TODO 创建一个订单扩展表，将这些信息记录到订单中
+		//save_to_db($data);
 	}
 
 	/*

@@ -6,8 +6,8 @@ class CPS360_api{
 
 	/********************************* API Inner Config *********************************/
 
-	const VERSION				= '0.1.0';
-	const BUILD					= '201206121745';
+	const VERSION				= '0.1.1';
+	const BUILD					= '201206151137';
 	const REPORT_URL			= 'http://open.union.360.cn/gofailed';
 	const ACTIVE_PERIOD			= 900;
 	const MAXNUM				= 2000;

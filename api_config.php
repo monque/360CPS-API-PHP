@@ -79,5 +79,12 @@ class CPS360_config{
 
 	//默认跳转地址
 	const REDIRECT_DEFAULT	= 'http://www.example.com';
+	
+	//时区设置
+	const TIME_ZONE			= 'Asia/Chongqing';
 
 }
+
+//FIXME:时区的设置，配置文件的加载
+ini_set('date.timezone',CPS360_config::TIME_ZONE);
+date_default_timezone_set(CPS360_config::TIME_ZONE);
