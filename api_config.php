@@ -84,7 +84,3 @@ class CPS360_config{
 	const TIME_ZONE			= 'Asia/Chongqing';
 
 }
-
-//FIXME:时区的设置，配置文件的加载
-ini_set('date.timezone',CPS360_config::TIME_ZONE);
-date_default_timezone_set(CPS360_config::TIME_ZONE);

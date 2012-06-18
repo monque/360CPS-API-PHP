@@ -20,8 +20,12 @@ class CPS360_model{
 		return $val;
 	}
 
-	protected function _format_money($val){
-		$val = $val < 0 ? 0 : floatval($val);
+	protected function _format_money($val,$isabs = false){
+		if($isabs){
+			$val = abs(floatval($val));
+		}else{
+			$val = $val < 0 ? 0 : floatval($val);
+		}
 		return CPS360_api::round($val,2);
 	}
 
@@ -102,7 +106,7 @@ class CPS360_model_product extends CPS360_model{
 		$this->cateid = $data['cateid'];
 		$this->catename = $data['catename'];
 		$this->price = $this->_format_money($data['price']);
-		$this->quantity = $data['quantity'];
+		$this->quantity = intval($data['quantity']);
 
 		//Commission
 		$this->commrate = CPS360_config::COMMRATE($this,$order);
@@ -155,9 +159,9 @@ class CPS360_model_node extends CPS360_model{
 		$this->order_updtime = $this->_format_date($data['order_updtime']);
 		$this->status = $data['status'];
 
-		$this->server_price = $this->_format_money($data['server_price']);
+		$this->server_price = $this->_format_money($data['server_price'],true);
 		$this->total_price = $this->_format_money($data['total_price']);
-		$this->coupon = $this->_format_money($data['coupon']);
+		$this->coupon = $this->_format_money($data['coupon'],true);
 		$this->coupon = $this->coupon > $this->total_price ? $this->total_price : $this->coupon;
 		$this->total_comm = 0;
 

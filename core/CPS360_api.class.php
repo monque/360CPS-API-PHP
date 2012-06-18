@@ -1,13 +1,19 @@
 <?PHP
-require_once('CPS360_models.class.php');
-require_once('CPS360_plugin.class.php');
+define('CPS360_ROOT',dirname(__FILE__));
+require_once(CPS360_ROOT . '/../api_config.php');
+require_once(CPS360_ROOT . '/CPS360_models.class.php');
+require_once(CPS360_ROOT . '/CPS360_plugin.class.php');
+
+//时区设置
+ini_set('date.timezone',CPS360_config::TIME_ZONE);
+date_default_timezone_set(CPS360_config::TIME_ZONE);
 
 class CPS360_api{
 
 	/********************************* API Inner Config *********************************/
 
-	const VERSION				= '0.1.1';
-	const BUILD					= '201206151137';
+	const VERSION				= '0.1.2';
+	const BUILD					= '201206181848';
 	const REPORT_URL			= 'http://open.union.360.cn/gofailed';
 	const ACTIVE_PERIOD			= 900;
 	const MAXNUM				= 2000;
@@ -283,7 +289,6 @@ class CPS360_api{
 	}
 
 	static private function _verify(){
-		$pathroot = dirname(__FILE__);
 		$content =
 '<?xml version="1.0" encoding="utf-8"?>
 <verify>
@@ -293,9 +298,9 @@ class CPS360_api{
 <active_period>'.self::ACTIVE_PERIOD.'</active_period>
 <maxnum>'.self::MAXNUM.'</maxnum>
 <sign>
-<api>'.md5(file_get_contents($pathroot.'/CPS360_api.class.php')).'</api>
-<model>'.md5(file_get_contents($pathroot.'/CPS360_models.class.php')).'</model>
-<plugin>'.md5(file_get_contents($pathroot.'/CPS360_plugin.class.php')).'</plugin>
+<api>'.md5(file_get_contents(CPS360_ROOT . '/CPS360_api.class.php')).'</api>
+<model>'.md5(file_get_contents(CPS360_ROOT . '/CPS360_models.class.php')).'</model>
+<plugin>'.md5(file_get_contents(CPS360_ROOT . '/CPS360_plugin.class.php')).'</plugin>
 </sign>
 </verify>
 ';
