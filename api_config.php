@@ -68,8 +68,9 @@ class CPS360_config{
 
 	/********************************* CPS 接口设置 *********************************/
 
+	//FIXME:测试使用
 	//插件名称，路径为"plugins/{PLUGIN_NAME}"，类名为"{PLUGIN_NAME}"
-	const PLUGIN_NAME		= 'CPS360_plugin_api';
+	const PLUGIN_NAME		= 'CPS360_plugin_zuitu';
 
 	//Cookie名称
 	const COOKIE_NAME		= 'cpsinfo';

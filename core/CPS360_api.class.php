@@ -12,6 +12,7 @@ class CPS360_api{
 
 	/********************************* API Inner Config *********************************/
 
+	//FIXME:更新版本
 	const VERSION				= '0.1.2';
 	const BUILD					= '201206181848';
 	const REPORT_URL			= 'http://open.union.360.cn/gofailed';
@@ -108,6 +109,8 @@ class CPS360_api{
 			$result = $plugin->order_by_time($params['start_time'],$params['end_time'],$params['last_order_id']);
 		}elseif($params['updstart_time'] && $params['updend_time']){
 			$result = $plugin->order_by_updtime($params['updstart_time'],$params['updend_time'],$params['last_order_id']);
+		}else{
+			$result = false;
 		}
 
 		//Output
