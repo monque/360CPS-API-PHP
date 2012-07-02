@@ -62,6 +62,6 @@ abstract class CPS360_plugin{
      *
      * return Array 返回订单列表
      */
-	abstract public function check_by_month($month,$last_order_id = '');
+	abstract public function check_by_month($bill_month,$last_order_id = '');
 
 }

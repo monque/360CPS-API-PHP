@@ -70,7 +70,10 @@ class CPS360_config{
 
 	//FIXME:测试使用
 	//插件名称，路径为"plugins/{PLUGIN_NAME}"，类名为"{PLUGIN_NAME}"
-	const PLUGIN_NAME		= 'CPS360_plugin_zuitu';
+	const PLUGIN_NAME		= 'CPS360_plugin_api';
+
+	//CPS表名
+	const TABLE_CPS			= '360cps';
 
 	//Cookie名称
 	const COOKIE_NAME		= 'cpsinfo';

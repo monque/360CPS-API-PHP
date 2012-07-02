@@ -1,8 +1,8 @@
 <?PHP
-define('CPS360_ROOT',dirname(__FILE__));
-require_once(CPS360_ROOT . '/../api_config.php');
-require_once(CPS360_ROOT . '/CPS360_models.class.php');
-require_once(CPS360_ROOT . '/CPS360_plugin.class.php');
+define('CPS360_ROOT',dirname(dirname(__FILE__)));
+require_once(CPS360_ROOT . '/api_config.php');
+require_once(CPS360_ROOT . '/core/CPS360_plugin.class.php');
+require_once(CPS360_ROOT . '/core/CPS360_models.class.php');
 
 //时区设置
 ini_set('date.timezone',CPS360_config::TIME_ZONE);
@@ -12,9 +12,8 @@ class CPS360_api{
 
 	/********************************* API Inner Config *********************************/
 
-	//FIXME:更新版本
-	const VERSION				= '0.1.2';
-	const BUILD					= '201206181848';
+	const VERSION				= '0.1.3';
+	const BUILD					= '201207021800';
 	const REPORT_URL			= 'http://open.union.360.cn/gofailed';
 	const ACTIVE_PERIOD			= 900;
 	const MAXNUM				= 2000;
@@ -135,6 +134,11 @@ class CPS360_api{
 		//Output
 		$xmldoc = self::_xml_generate($result);
 		self::_output($xmldoc);
+	}
+
+	static public function order_save($order_id,$data){
+		$plugin = self::_plugin_load();
+		$plugin->order_save($order_id,$data);
 	}
 
 	/********************************* CPS Utility *********************************/
@@ -266,7 +270,7 @@ class CPS360_api{
 	}
 
 	static private function _plugin_load(){
-		require('plugin/'.CPS360_config::PLUGIN_NAME.'.php');
+		require_once(CPS360_ROOT . '/plugin/'.CPS360_config::PLUGIN_NAME.'.php');
 		$classname = CPS360_config::PLUGIN_NAME;
 		return new $classname;
 	}
