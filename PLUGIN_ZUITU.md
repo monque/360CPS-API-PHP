@@ -9,17 +9,19 @@
 -------------
 执行以下SQL创建360CPS订单表
 
-CREATE TABLE `360cps` (
-  `id` bigint(20) NOT NULL auto_increment,
-  `order_id` varchar(128) NOT NULL,
-  `qid` varchar(128) NOT NULL default '0',
-  `qihoo_id` varchar(128) NOT NULL default '',
-  `ext` varchar(255) NOT NULL default '',
-  `products` text,
-  `dateline` int(10) NOT NULL default '0',
-  PRIMARY KEY  (`id`),
-  KEY `order_id` (`order_id`)
+`
+CREATE TABLE 360cps (
+  id bigint(20) NOT NULL auto_increment,
+  order_id varchar(128) NOT NULL,
+  qid varchar(128) NOT NULL default '0',
+  qihoo_id varchar(128) NOT NULL default '',
+  ext varchar(255) NOT NULL default '',
+  products text,
+  dateline int(10) NOT NULL default '0',
+  PRIMARY KEY  (id),
+  KEY order_id (order_id)
 ) ENGINE=MyISAM AUTO_INCREMENT=0;
+`
 
 
 步骤3
@@ -32,6 +34,7 @@ CREATE TABLE `360cps` (
 
 3、在其下行粘贴如下代码
 
+`
 require_once DIR_ROOT . '/../360cps/core/CPS360_api.class.php';
 if(isset($_COOKIE[CPS360_config::COOKIE_NAME])){
 	$group = Table::Fetch('category', $team['group_id']);
@@ -48,3 +51,4 @@ if(isset($_COOKIE[CPS360_config::COOKIE_NAME])){
 	);
 	CPS360_api::order_save($order_id,$teams);
 }
+`
