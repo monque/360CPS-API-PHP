@@ -1,7 +1,7 @@
 <?PHP
 class CPS360_plugin_zuitu extends CPS360_plugin{
 
-	const ZUITU_APP				= 'zuitu/app.php';
+	const ZUITU_APP				= '/home/wangyuchen/workspace/tuan_zuitu/app.php';
 
 	const VERSION				= '0.0.1';
 	const BUILD					= '201207021800';
@@ -32,7 +32,7 @@ class CPS360_plugin_zuitu extends CPS360_plugin{
 
 		$orderlist = array();
 		$query = DB::Query('SELECT cps.*
-		,o.id order_id,o.create_time,o.fare,o.card,o.origin,o.state
+		,o.id order_id,o.create_time,o.pay_time,o.fare,o.card,o.origin,o.state,o.rstate
 		,o.team_id,t.product,t.group_id,t.team_price
 		,c.name group_name
 		FROM `'.CPS360_config::TABLE_CPS.'` cps
@@ -42,7 +42,26 @@ class CPS360_plugin_zuitu extends CPS360_plugin{
 		WHERE cps.order_id = o.id AND '.$extrasql.'
 		ORDER BY o.id ASC LIMIT '.CPS360_api::MAXNUM);
 		while($row = DB::NextRecord($query)){
+			
+			//Product
 			$products = unserialize($row['products']);
+			
+			//Status
+			$status = 1;
+			if($row['state'] == 'unpay'){
+				if($row['rstate'] == 'berefund'){
+					$status = 6;
+				}else{
+					$status = 1;
+				}
+			}elseif($row['state'] == 'pay'){
+				if(time() - $row['pay_time'] > 86400*15){
+					$status = 5;
+				}else{
+					$status = 4;
+				}
+			}
+			
 			$orderlist[] = 			array (
 				'qid'				=> $row['qid'],													//CPS信息：360用户ID（来自跳转时传递的数据）
 				'qihoo_id'			=> $row['qihoo_id'],											//CPS信息：360业务编号（来自跳转时传递的数据）
@@ -53,7 +72,7 @@ class CPS360_plugin_zuitu extends CPS360_plugin{
 				'server_price'		=> $row['fare'],												//订单服务费、运费、手续费等附加费用
 				'coupon'			=> $row['card'],												//优惠劵、代金卷金额
 				'total_price'		=> $row['origin'],												//订单总价（不含服务费用，不含优惠劵金额）
-				'status'			=> $row['state'] == 'pay' ? 4 : 1,								//订单状态（1新订单；2已确认尚未发货和支付；3已发货；4已支付；5已完成；6已取消）
+				'status'			=> $status,														//订单状态（1新订单；2已确认尚未发货和支付；3已发货；4已支付；5已完成；6已取消）
 				'products'			=> $products,
 			);
 		}

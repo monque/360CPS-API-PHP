@@ -33,7 +33,7 @@ class CPS360_config{
 
 		/*
 		方法一
-		佣金比例按商品分类制定
+		佣金比例按商品分类制定*/
 		switch($product->attr('cateid')){
 			case 1:
 				$rate = 0.1;
@@ -41,7 +41,7 @@ class CPS360_config{
 			default:
 				$rate = 0.8;
 		}
-		*/
+		
 		
 		/*
 		方法二
@@ -68,7 +68,6 @@ class CPS360_config{
 
 	/********************************* CPS 接口设置 *********************************/
 
-	//FIXME:测试使用
 	//插件名称，路径为"plugins/{PLUGIN_NAME}"，类名为"{PLUGIN_NAME}"
 	const PLUGIN_NAME		= 'CPS360_plugin_api';
 

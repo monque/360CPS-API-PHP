@@ -17,15 +17,17 @@
 文件说明
 -------------
 	1）core/CPS360_api.class.php		接口核心类
-	2）core/CPS360_models.class.php	订单模型
-	3）core/CPS360_plugin.class.php	插件模型
-	4）plugin/CPS360_plugin_api.php	插件模板（需修改）
+	2）core/CPS360_models.class.php		订单模型
+	3）core/CPS360_plugin.class.php		插件模型
+	4）plugin/CPS360_plugin_api.php		插件模板（需修改）
 	5）api_config.php					接口配置信息（需修改）
-	6）api_redirect.php				访问跳转接口
+	6）api_redirect.php					访问跳转接口
 	7）api_order.php					订单查询接口
 	8）api_check.php					对账查询接口
 
-
+插件说明
+-------------
+	1）PLUGIN_ZUITU.nd					最土插件说明
 
 开发文档
 -------------
