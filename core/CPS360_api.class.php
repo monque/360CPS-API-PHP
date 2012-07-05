@@ -330,6 +330,7 @@ class CPS360_api{
 			$pow = pow(10,$precision + 1);
 			$val = round($val * $pow,-1);
 			$val = sprintf('%.'.$precision.'f',$val / $pow);
+			$val = floatval($val);
 		}
 
 		return $val;

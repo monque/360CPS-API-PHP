@@ -26,7 +26,7 @@ class CPS360_model{
 		}else{
 			$val = $val < 0 ? 0 : floatval($val);
 		}
-		return CPS360_api::round($val,2);
+		return sprintf('%.2f',CPS360_api::round($val,2));
 	}
 
 	protected function _format_url($val){
