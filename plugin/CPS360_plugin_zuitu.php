@@ -1,10 +1,10 @@
 <?PHP
 class CPS360_plugin_zuitu extends CPS360_plugin{
 
-	const ZUITU_APP				= '/home/wangyuchen/workspace/tuan_zuitu/app.php';
+	const ZUITU_APP				= './zuitu/app.php';
 
-	const VERSION				= '0.0.1';
-	const BUILD					= '201207021800';
+	const VERSION				= '0.0.2';
+	const BUILD					= '201207061100';
 
 	public function __construct(){
 		require_once(self::ZUITU_APP);
@@ -19,14 +19,19 @@ class CPS360_plugin_zuitu extends CPS360_plugin{
 			$extrasql[] = 'o.create_time > '.$params['start_time'];
 			$extrasql[] = 'o.create_time < '.$params['end_time'];
 		}elseif($method == 'ids'){
-			$extrasql[] = 'o.id IN ('.$params['order_ids'].')';
+		    $order_ids = explode(',', $params['order_ids']);
+            foreach($order_ids as &$order_id) {
+                $order_id = addslashes($order_id);
+            }
+            $order_ids = implode(',',$order_ids);
+			$extrasql[] = 'cps.order_id IN ('.$order_ids.')';
 		}elseif($method == 'check'){
 			$timestamp = strtotime($params['bill_month']);
-			$extrasql[] = 'o.create_time > '.mktime(0, 0 , 0,date("m",$timestamp),1,date("Y",$timestamp));
-			$extrasql[] = 'o.create_time < '.mktime(23,59,59,date("m",$timestamp),date("t",$timestamp),date("Y",$timestamp));
+			$extrasql[] = 'o.create_time >= '.mktime(0, 0 , 0,date("m",$timestamp),1,date("Y",$timestamp));
+			$extrasql[] = 'o.create_time <= '.mktime(23,59,59,date("m",$timestamp),date("t",$timestamp),date("Y",$timestamp));
 		}
 		if(in_array($method,array('time','updtime','check')) && $params['last_order_id']){
-			$extrasql[] = 'o.id > '.$params['last_order_id'];
+			$extrasql[] = 'cps.order_id > '.$params['last_order_id'];
 		}
 		$extrasql = implode(' AND ',$extrasql);
 
@@ -36,11 +41,11 @@ class CPS360_plugin_zuitu extends CPS360_plugin{
 		,o.team_id,t.product,t.group_id,t.team_price
 		,c.name group_name
 		FROM `'.CPS360_config::TABLE_CPS.'` cps
-		JOIN `order` o
+		LEFT JOIN `order` o ON cps.order_id = o.id
 		LEFT JOIN `team` t ON t.id = o.team_id
 		LEFT JOIN `category` c ON t.group_id = c.id
-		WHERE cps.order_id = o.id AND '.$extrasql.'
-		ORDER BY o.id ASC LIMIT '.CPS360_api::MAXNUM);
+		WHERE 1 AND '.$extrasql.'
+		ORDER BY cps.order_id ASC LIMIT '.CPS360_api::MAXNUM);
 		while($row = DB::NextRecord($query)){
 			
 			//Product
