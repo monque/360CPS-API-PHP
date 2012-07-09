@@ -1,12 +1,11 @@
 <?PHP
 class CPS360_plugin_zuitu extends CPS360_plugin{
 
-	const ZUITU_APP				= './zuitu/app.php';
-
-	const VERSION				= '0.0.2';
-	const BUILD					= '201207061100';
+	const VERSION				= '0.0.3';
+	const BUILD					= '201207091800';
 
 	public function __construct(){
+		define(ZUITU_APP,dirname(__FILE__).'/../../app.php');
 		require_once(self::ZUITU_APP);
 	}
 
