@@ -77,9 +77,6 @@ class CPS360_config{
 	//Cookie名称
 	const COOKIE_NAME		= 'cpsinfo';
 
-	//Cookie所在域
-	const COOKIE_DOMAIN		= 'example.com';
-
 	//默认跳转地址
 	const REDIRECT_DEFAULT	= 'http://www.example.com';
 	

@@ -12,8 +12,8 @@ class CPS360_api{
 
 	/********************************* API Inner Config *********************************/
 
-	const VERSION				= '0.1.3';
-	const BUILD					= '201207021800';
+	const VERSION				= '0.1.4';
+	const BUILD					= '201207101200';
 	const REPORT_URL			= 'http://open.union.360.cn/gofailed';
 	const ACTIVE_PERIOD			= 900;
 	const MAXNUM				= 2000;
@@ -43,11 +43,10 @@ class CPS360_api{
 			'qname' => $params['qname'],
 		);
 		$cur_domainroot = self::_domainroot();
-		$cookie_domainroot = self::_domainroot(CPS360_config::COOKIE_DOMAIN);
 		$cookie_param = array(
 			'name' => CPS360_config::COOKIE_NAME,
 			'value' => self::serialize($cookies),
-			'domain' => ($cookie_domainroot == $cur_domainroot ? CPS360_config::COOKIE_DOMAIN : $cur_domainroot),
+			'domain' => '.'.$cur_domainroot,
 			'expires' => time() + (86400 * CPS360_config::RD),
 			'path' => '/',
 		);
