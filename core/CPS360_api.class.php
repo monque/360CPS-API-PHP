@@ -215,7 +215,7 @@ class CPS360_api{
 	}
 
 	static private function _domainroot($url = ''){
-		$url = $url ? $url : $_SERVER['SCRIPT_URI'];
+		$url = $url ? $url : 'http://'.$_SERVER['HTTP_HOST'];
 		$url = 'http://'.str_replace(array('http://','https://'),'',$url);
 		$parsed_url = parse_url($url);
 		$host_array = array_reverse(explode('.',$parsed_url['host']));
