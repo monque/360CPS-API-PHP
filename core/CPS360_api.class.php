@@ -46,12 +46,14 @@ class CPS360_api{
 		$cookie_param = array(
 			'name' => CPS360_config::COOKIE_NAME,
 			'value' => self::serialize($cookies),
-			'domain' => $cur_domainroot,
 			'expires' => time() + (86400 * CPS360_config::RD),
 			'path' => '/',
 		);
 		self::_debug_output('Cookie Set',$cookie_param);
-		setcookie($cookie_param['name'],$cookie_param['value'],$cookie_param['expires'],$cookie_param['path'],$cookie_param['domain']);
+		foreach(array($cur_domainroot,'.'.$cur_domainroot) as $domain){
+			setcookie($cookie_param['name'],$cookie_param['value'],$cookie_param['expires'],$cookie_param['path'],$domain);
+		}
+		
 
 		//Activetime & Sign
 		$check_activetime = self::_check_activeTime($params['active_time']);
@@ -219,11 +221,21 @@ class CPS360_api{
 		$url = 'http://'.str_replace(array('http://','https://'),'',$url);
 		$parsed_url = parse_url($url);
 		$host_array = array_reverse(explode('.',$parsed_url['host']));
-		if(count($host_array) >= 2){
-			return $host_array['1'].'.'.$host_array['0'];
-		}else{
-			return false;
+		$result = array();
+		foreach($host_array as $key => $value){
+			if(
+				$key == 0
+				||
+				$key == 1
+				||
+				$key == 2 && in_array($host_array['1'],array('com','net','org','edu'))
+			){
+				$result[] = $value;
+			}
 		}
+		$result = implode('.',array_reverse($result));
+		
+		return $result;
 	}
 
 	static private function _http_request($url,$method = 'get',$data = array()){
