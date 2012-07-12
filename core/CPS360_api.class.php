@@ -46,7 +46,7 @@ class CPS360_api{
 		$cookie_param = array(
 			'name' => CPS360_config::COOKIE_NAME,
 			'value' => self::serialize($cookies),
-			'domain' => '.'.$cur_domainroot,
+			'domain' => $cur_domainroot,
 			'expires' => time() + (86400 * CPS360_config::RD),
 			'path' => '/',
 		);
