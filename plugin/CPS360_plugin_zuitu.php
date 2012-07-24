@@ -1,8 +1,8 @@
 <?PHP
 class CPS360_plugin_zuitu extends CPS360_plugin{
 
-	const VERSION				= '0.0.4';
-	const BUILD					= '201207191800';
+	const VERSION				= '0.0.5';
+	const BUILD					= '201207241200';
 
 	public function __construct(){
 		require_once(dirname(__FILE__).'/../../app.php');
@@ -16,6 +16,9 @@ class CPS360_plugin_zuitu extends CPS360_plugin{
 		if($method == 'time'){
 			$extrasql[] = 'o.create_time > '.$params['start_time'];
 			$extrasql[] = 'o.create_time < '.$params['end_time'];
+		}elseif($method == 'updtime'){
+			$extrasql[] = 'o.update_time > '.$params['updstart_time'];
+			$extrasql[] = 'o.update_time < '.$params['updend_time'];
 		}elseif($method == 'ids'){
 		    $order_ids = explode(',', $params['order_ids']);
             foreach($order_ids as &$order_id) {
@@ -25,6 +28,7 @@ class CPS360_plugin_zuitu extends CPS360_plugin{
 			$extrasql[] = 'cps.order_id IN ('.$order_ids.')';
 		}elseif($method == 'check'){
 			$timestamp = strtotime($params['bill_month']);
+			$extrasql[] = 'o.state = "pay"';
 			$extrasql[] = 'o.create_time >= '.mktime(0, 0 , 0,date("m",$timestamp),1,date("Y",$timestamp));
 			$extrasql[] = 'o.create_time <= '.mktime(23,59,59,date("m",$timestamp),date("t",$timestamp),date("Y",$timestamp));
 		}

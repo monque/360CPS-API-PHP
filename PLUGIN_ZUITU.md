@@ -23,8 +23,15 @@ CREATE TABLE 360cps (
 ) ENGINE=MyISAM AUTO_INCREMENT=0;
 `
 
-
 步骤3
+-------------
+执行以下SQL修改订单表，增加更新时间字段
+
+`
+ALTER TABLE `order` ADD `update_time` TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL AFTER `pay_time` 
+`
+
+步骤4
 -------------
 修改程序记录CPS订单
 
