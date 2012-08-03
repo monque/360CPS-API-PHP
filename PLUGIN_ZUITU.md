@@ -28,7 +28,8 @@ CREATE TABLE 360cps (
 执行以下SQL修改订单表，增加更新时间字段
 
 `
-ALTER TABLE `order` ADD `update_time` TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL AFTER `pay_time` 
+ALTER TABLE `order` ADD `update_time` TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL AFTER `pay_time`;
+UPDATE `order` SET update_time = FROM_UNIXTIME((create_time * (create_time > pay_time)) + (pay_time * (pay_time > create_time)));
 `
 
 步骤4

@@ -17,8 +17,8 @@ class CPS360_plugin_zuitu extends CPS360_plugin{
 			$extrasql[] = 'o.create_time > '.$params['start_time'];
 			$extrasql[] = 'o.create_time < '.$params['end_time'];
 		}elseif($method == 'updtime'){
-			$extrasql[] = 'o.update_time > '.$params['updstart_time'];
-			$extrasql[] = 'o.update_time < '.$params['updend_time'];
+			$extrasql[] = 'o.update_time > "'.date('Y-m-d H:i:s',$params['updstart_time']).'"';
+			$extrasql[] = 'o.update_time < "'.date('Y-m-d H:i:s',$params['updend_time']).'"';
 		}elseif($method == 'ids'){
 		    $order_ids = explode(',', $params['order_ids']);
             foreach($order_ids as &$order_id) {
@@ -39,7 +39,7 @@ class CPS360_plugin_zuitu extends CPS360_plugin{
 
 		$orderlist = array();
 		$query = DB::Query('SELECT cps.*
-		,o.id order_id,o.create_time,o.pay_time,o.fare,o.card,o.origin,o.state,o.rstate
+		,o.id order_id,o.create_time,o.pay_time,o.update_time,o.fare,o.card,o.origin,o.state,o.rstate
 		,o.team_id,t.product,t.group_id,t.team_price
 		,c.name group_name
 		FROM `'.CPS360_config::TABLE_CPS.'` cps
@@ -75,7 +75,7 @@ class CPS360_plugin_zuitu extends CPS360_plugin{
 				'ext'				=> $row['ext'],													//CPS信息：360CPS扩展字段（来自跳转时传递的数据）
 				'order_id'			=> $row['order_id'],											//订单Id
 				'order_time'		=> $row['create_time'],											//订单下单时间（格式：时间戳、YYYY-MM-DD HH-II-SS）
-				'order_updtime'		=> max($row['pay_time'],$row['create_time'],$row['dateline']),	//订单最后更新时间（格式：时间戳、YYYY-MM-DD HH-II-SS）
+				'order_updtime'		=> $row['update_time'],											//订单最后更新时间（格式：时间戳、YYYY-MM-DD HH-II-SS）
 				'server_price'		=> $row['fare'],												//订单服务费、运费、手续费等附加费用
 				'coupon'			=> $row['card'],												//优惠劵、代金卷金额
 				'total_price'		=> $row['origin'],												//订单总价（不含服务费用，不含优惠劵金额）
