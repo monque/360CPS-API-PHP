@@ -14,14 +14,14 @@ class CPS360_plugin_api extends CPS360_plugin{
 				'qihoo_id'			=> 36000,												//CPS信息：360业务编号（来自跳转时传递的数据）
 				'ext'				=> '1339039506|0|0|0|152917633|36000|c4392',			//CPS信息：360CPS扩展字段（来自跳转时传递的数据）
 				'order_id'			=> '2012060712465',										//订单Id
+				'order_link'		=> 'http://example.com/order/index',					//订单页Url
 				'order_time'		=> '1339036840',										//订单下单时间（格式：时间戳、YYYY-MM-DD HH-II-SS）
 				'order_updtime'		=> '1339036840',										//订单最后更新时间（格式：时间戳、YYYY-MM-DD HH-II-SS）
 				'server_price'		=> 10.00,												//订单服务费、运费、手续费等附加费用
 				'coupon'			=> 100,													//优惠劵、代金卷金额
 				'total_price'		=> 100,													//订单总价（不含服务费用，不含优惠劵金额）
 				'status'			=> 1,													//订单状态（1新订单；2已确认尚未发货和支付；3已发货；4已支付；5已完成；6已取消）
-				//订单内商品详情
-				'products'			=> array (
+				'products'			=> array (												//订单内商品详情
 											0 => array (
 												'id'		=> 'ECS000001',					//商品Id
 												'name'		=> '望远镜',					//商品名称
@@ -32,6 +32,18 @@ class CPS360_plugin_api extends CPS360_plugin{
 												'quantity'	=> 2,							//商品数量
 											),
 											//......
+										),
+				'delivery'			=> array(												//收货人信息
+											'isdefault'		=> true,						//是否为默认地址
+											'name'			=> '自己',						//收货：姓名
+											'nation'		=> '中|国',						//收货：国家(默认:中国)
+											'state'			=> '北京市',					//收货：省份
+											'city'			=> '北京市',					//收货：市
+											'district'		=> '朝阳区',					//收货：区
+											'address'		=> '建国路71号惠通时代广场',	//收货：详细地址
+											'zip'			=> '100025',					//收货：邮编
+											'telphone'		=> '010-60000000',				//收货：固定电话
+											'mobile'		=> '13800138000',				//收货：手机
 										),
 			)
 			//......

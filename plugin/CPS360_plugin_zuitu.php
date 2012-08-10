@@ -1,8 +1,8 @@
 <?PHP
 class CPS360_plugin_zuitu extends CPS360_plugin{
 
-	const VERSION				= '0.0.5';
-	const BUILD					= '201207241200';
+	const VERSION				= '0.1.0';
+	const BUILD					= '201208101800';
 
 	public function __construct(){
 		require_once(dirname(__FILE__).'/../../app.php');
@@ -39,7 +39,12 @@ class CPS360_plugin_zuitu extends CPS360_plugin{
 
 		$orderlist = array();
 		$query = DB::Query('SELECT cps.*
+<<<<<<< HEAD
 		,o.id order_id,o.create_time,o.pay_time,o.update_time,o.fare,o.card,o.origin,o.state,o.rstate
+=======
+		,o.id order_id,o.create_time,o.pay_time,o.fare,o.card,o.origin,o.state,o.rstate
+		,o.realname,o.mobile,o.zipcode,o.address
+>>>>>>> dev
 		,o.team_id,t.product,t.group_id,t.team_price
 		,c.name group_name
 		FROM `'.CPS360_config::TABLE_CPS.'` cps
@@ -49,10 +54,10 @@ class CPS360_plugin_zuitu extends CPS360_plugin{
 		WHERE 1 AND '.$extrasql.'
 		ORDER BY cps.order_id ASC LIMIT '.CPS360_api::MAXNUM);
 		while($row = DB::NextRecord($query)){
-			
+
 			//Product
 			$products = unserialize($row['products']);
-			
+
 			//Status
 			$status = 1;
 			if($row['state'] == 'unpay'){
@@ -68,12 +73,13 @@ class CPS360_plugin_zuitu extends CPS360_plugin{
 					$status = 4;
 				}
 			}
-			
+
 			$orderlist[] = 			array (
 				'qid'				=> $row['qid'],													//CPS信息：360用户ID（来自跳转时传递的数据）
 				'qihoo_id'			=> $row['qihoo_id'],											//CPS信息：360业务编号（来自跳转时传递的数据）
 				'ext'				=> $row['ext'],													//CPS信息：360CPS扩展字段（来自跳转时传递的数据）
 				'order_id'			=> $row['order_id'],											//订单Id
+				'order_link'		=> 'http://'.$_SERVER['HTTP_HOST'].WEB_ROOT.'/order/index.php',	//订单页Url
 				'order_time'		=> $row['create_time'],											//订单下单时间（格式：时间戳、YYYY-MM-DD HH-II-SS）
 				'order_updtime'		=> $row['update_time'],											//订单最后更新时间（格式：时间戳、YYYY-MM-DD HH-II-SS）
 				'server_price'		=> $row['fare'],												//订单服务费、运费、手续费等附加费用
@@ -81,6 +87,18 @@ class CPS360_plugin_zuitu extends CPS360_plugin{
 				'total_price'		=> $row['origin'],												//订单总价（不含服务费用，不含优惠劵金额）
 				'status'			=> $status,														//订单状态（1新订单；2已确认尚未发货和支付；3已发货；4已支付；5已完成；6已取消）
 				'products'			=> $products,
+				'delivery'			=> array(														//收货人信息
+					'isdefault'		=> true,														//是否为默认地址
+					'name'			=> $row['realname'],											//收货：姓名
+					'nation'		=> '',															//收货：国家(默认:中国)
+					'state'			=> '',															//收货：省份
+					'city'			=> '',															//收货：市
+					'district'		=> '',															//收货：区
+					'address'		=> $row['address'],												//收货：详细地址
+					'zip'			=> $row['zipcode'],												//收货：邮编
+					'telphone'		=> null,														//收货：固定电话
+					'mobile'		=> $row['mobile'],												//收货：手机
+				),
 			);
 		}
 
