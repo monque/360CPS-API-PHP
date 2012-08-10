@@ -43,17 +43,17 @@ class CPS360_model{
 		}else{
 			$val = $this->_recursionarray($val,'_format_microlist');
 		}
-		
+
 		return $val;
 	}
 
 	protected function _format_xmlcompatible($val,$isprocess = false){
 		if($isprocess){
-			$val =htmlspecialchars($val);
+			$val = htmlspecialchars($val);
 		}else{
 			$val = $this->_recursionarray($val,'_format_xmlcompatible');
 		}
-		
+
 		return $val;
 	}
 
@@ -63,10 +63,10 @@ class CPS360_model{
 		}else{
 			$val = $this->_recursionarray($val,'_format_trim');
 		}
-		
+
 		return $val;
 	}
-	
+
 	private function _recursionarray($val,$callback){
 		if(is_array($val)){
 			foreach($val as &$v){
@@ -198,6 +198,9 @@ class CPS360_model_order extends CPS360_model_node{
 	protected $qihoo_id;
 	protected $ext;
 
+	protected $delivery;
+	protected $orderlink;
+
 	public function __construct($data,$extraparam = ''){
 		$data = $this->_format_xmlcompatible($this->_format_trim($data));
 		parent::__construct($data,$extraparam);
@@ -207,6 +210,23 @@ class CPS360_model_order extends CPS360_model_node{
 		$this->qid = $data['qid'];
 		$this->qihoo_id = $data['qihoo_id'];
 		$this->ext = $data['ext'];
+
+		//Order Info
+		$this->delivery = implode(',',$this->_format_microlist(array(
+			'delivery_address',
+			$data['delivery']['isdefault'] ? '1' : '0',
+			$data['delivery']['name'],
+			$data['delivery']['nation'] ? $data['delivery']['nation'] : '中国',
+			$data['delivery']['state'],
+			$data['delivery']['city'],
+			$data['delivery']['district'],
+			$data['delivery']['address'],
+			intval($data['delivery']['zip']),
+			$data['delivery']['telphone'],
+			$data['delivery']['mobile'],
+		)));
+		$this->order_link = 'order_link,'.$this->_format_url($data['order_link']);
+		array_unshift($this->p_info,$this->delivery,$this->order_link);
 	}
 
 	public function to_xml(){
