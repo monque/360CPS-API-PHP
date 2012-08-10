@@ -39,12 +39,8 @@ class CPS360_plugin_zuitu extends CPS360_plugin{
 
 		$orderlist = array();
 		$query = DB::Query('SELECT cps.*
-<<<<<<< HEAD
 		,o.id order_id,o.create_time,o.pay_time,o.update_time,o.fare,o.card,o.origin,o.state,o.rstate
-=======
-		,o.id order_id,o.create_time,o.pay_time,o.fare,o.card,o.origin,o.state,o.rstate
 		,o.realname,o.mobile,o.zipcode,o.address
->>>>>>> dev
 		,o.team_id,t.product,t.group_id,t.team_price
 		,c.name group_name
 		FROM `'.CPS360_config::TABLE_CPS.'` cps
