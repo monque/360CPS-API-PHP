@@ -68,6 +68,8 @@ class CPS360_plugin_zuitu extends CPS360_plugin{
 				}else{
 					$status = 4;
 				}
+			}elseif($row['state'] == 'cancel'){
+				$status = 6;
 			}
 
 			$orderlist[] = 			array (
