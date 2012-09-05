@@ -76,7 +76,7 @@ class CPS360_plugin_api extends CPS360_plugin{
      *
      * return String 反馈状态
      */
-	public function order_save($order_id,$data){
+	public function order_save($order_id,$data = array()){
 	    if(!$_COOKIE[CPS360_config::COOKIE_NAME]) return false;
 		$cpsinfo = CPS360_api::unserialize($_COOKIE[CPS360_config::COOKIE_NAME]);
 		if(!$cpsinfo) return false;

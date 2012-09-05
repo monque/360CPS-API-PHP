@@ -9,7 +9,7 @@ abstract class CPS360_plugin{
      *
      * return String 反馈状态
      */
-	abstract public function order_save($order_id,$data);
+	abstract public function order_save($order_id,$data = array());
 
 	/*
 	 * 用户自动登录，如果用户尚未注册，则通过用户信息自动注册账号

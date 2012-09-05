@@ -1,8 +1,8 @@
 <?PHP
 class CPS360_plugin_zuitu extends CPS360_plugin{
 
-	const VERSION				= '0.1.0';
-	const BUILD					= '201208101800';
+	const VERSION				= '0.1.1';
+	const BUILD					= '201209051500';
 
 	public function __construct(){
 		require_once(dirname(__FILE__).'/../../app.php');
@@ -115,7 +115,7 @@ class CPS360_plugin_zuitu extends CPS360_plugin{
 
 	/********************************* Abstract *********************************/
 
-	public function order_save($order_id,$data){
+	public function order_save($order_id,$data = array()){
 		if(!$order_id) return false;
 		$cpsinfo = CPS360_api::unserialize($_COOKIE[CPS360_config::COOKIE_NAME]);
 		if(!$cpsinfo) return false;
