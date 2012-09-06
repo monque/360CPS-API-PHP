@@ -138,7 +138,7 @@ class CPS360_plugin_ecshop extends CPS360_plugin{
 	 * @param string $alias sql查询中表的别名
 	 */
 	private function order_check_sql_where($alias = 'o') {
-		$sql_where = $alias . '.pay_status = ' . PS_PAYED . ' or ' . $alias . '.shipping_status = ' . SS_SHIPPED;
+		$sql_where = ' (' . $alias . '.pay_status = ' . PS_PAYED . ' or ' . $alias . '.shipping_status = ' . SS_SHIPPED . ')';
 		return $sql_where;
 	}
 
