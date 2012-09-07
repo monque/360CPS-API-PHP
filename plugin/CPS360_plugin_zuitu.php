@@ -120,23 +120,26 @@ class CPS360_plugin_zuitu extends CPS360_plugin{
 		$cpsinfo = CPS360_api::unserialize($_COOKIE[CPS360_config::COOKIE_NAME]);
 		if(!$cpsinfo) return false;
 
-		//CPS信息
-		$cpsdata = array(
-			'order_id' => $order_id,
-			'qid' => $cpsinfo['qid'],
-			'qihoo_id' => $cpsinfo['qihoo_id'],
-			'ext' => $cpsinfo['ext'],
-			'products' => serialize($data),
-			'dateline' => time(),
-		);
-
 		//检查重复
 		$cpsdata_exists = Table::Fetch(CPS360_config::TABLE_CPS,array('order_id' => $order_id),'order_id');
 
 		//入库
 		if(empty($cpsdata_exists)){
+			$cpsdata = array(
+				'order_id' => $order_id,
+				'qid' => $cpsinfo['qid'],
+				'qihoo_id' => $cpsinfo['qihoo_id'],
+				'ext' => $cpsinfo['ext'],
+				'products' => serialize($data),
+				'dateline' => time(),
+			);
 			$result = DB::Insert(CPS360_config::TABLE_CPS,$cpsdata);
 		}else{
+			$cpsdata = array(
+				'order_id' => $order_id,
+				'products' => serialize($data),
+				'dateline' => time(),
+			);
 			$result = DB::Update(CPS360_config::TABLE_CPS,$cpsdata_exists['0']['id'],$cpsdata);
 		}
 
