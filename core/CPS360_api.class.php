@@ -60,9 +60,20 @@ class CPS360_api{
 		$check_sign = self::_check_sign($params,'redirect');
 		if(!$check_activetime['isfine'] || !$check_sign['isfine']){
 			//错误报告
-			$data_report = $params;
-			$data_report['userip'] = self::_ip_get();
-			$data_report['useragent'] = $_SERVER['HTTP_USER_AGENT'];
+			$data_report = array(
+				'bid' => CPS360_config::BID,
+				'active_time' => time(),
+				'sign' => $check_sign['resign'],
+				'pre_bid' => $params['bid'],
+				'pre_active_time' => $params['active_time'],
+				'pre_sign' => $params['sign'],
+				'qid' => $params['qid'],
+				'qname' => $params['qname'],
+				'qmail' => $params['qmail'],
+				'from_url' => $params['from_url'],
+				'from_ip' => self::_ip_get(),
+				'from_ua' => $_SERVER['HTTP_USER_AGENT'],
+			);
 			self::_http_request(self::REPORT_URL,'post',$data_report);
 			self::_debug_output('Error Report',$data_report);
 
@@ -189,7 +200,7 @@ class CPS360_api{
 		$resign = md5($resign);
 
 		if ($params['sign'] && $params['sign'] !== $resign){
-			$result = array('isfine' => false,'message' => '验证失败');
+			$result = array('isfine' => false,'message' => '验证失败','resign' => $resign);
 		}else{
 			$result = array('isfine' => true,'message' => '');
 		}
