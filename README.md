@@ -28,6 +28,7 @@
 插件说明
 -------------
 	1）PLUGIN_ZUITU.md						最土插件说明
+	2）PLUGIN_ECSHOP.md						ECShop插件说明
 
 开发文档
 -------------

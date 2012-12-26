@@ -33,15 +33,15 @@ class CPS360_config{
 
 		/*
 		方法一
-		佣金比例按商品分类制定*/
+		佣金比例按商品分类制定
 		switch($product->attr('cateid')){
 			case 1:
 				$rate = 0.1;
 				break;
 			default:
-				$rate = 0.8;
+				$rate = 0.1;
 		}
-		
+		*/
 		
 		/*
 		方法二
@@ -61,8 +61,8 @@ class CPS360_config{
 		$comm = 100;
 		$rate = CPS360_api::round($comm / $order->attr('total_price'),6);
 		*/
-		
 
+		$rate = 0.1;
 		return $rate;
 	}
 
