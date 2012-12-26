@@ -32,4 +32,4 @@
 
 开发文档
 -------------
-http://open.union.360.cn/apidoc
+http://union.360.cn/help/apidocnew
