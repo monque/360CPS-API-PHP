@@ -33,36 +33,73 @@ class CPS360_config{
 
 		/*
 		方法一
-		佣金比例按商品分类制定
-		switch($product->attr('cateid')){
-			case 1:
-				$rate = 0.1;
-				break;
-			default:
-				$rate = 0.1;
+		佣金比例按商品分类制定，注意根据时间段不同而返回比例不同，如果阶段性的调整了佣金比例，在此处分时间段返回佣金比例
+		if($order->order_time > '2012-01-01 00:00:00' && $order->order_time <= '2100-12-31 23:59:59'){
+			switch($product->attr('cateid')){
+				case 1:
+					$rate = 0.1;
+					break;
+				default:
+					$rate = 0.1;
+			}
 		}
+		elseif($order->order_time > '1998-01-01 00:00:00' && $order->order_time <= '2012-01-01 00:00:00'){
+			switch($product->attr('cateid')){
+				case 1:
+					$rate = 0.2;
+					break;
+				default:
+					$rate = 0.3;
+			}
+		}
+
 		*/
 		
 		/*
 		方法二
-		佣金比例按订单总价制定
-		if($order->attr('total_price') >= 0 && $order->attr('total_price') < 100){
-			$rate = 0.01;
-		}elseif($order->attr('total_price') >= 100 && $order->attr('total_price') < 1000){
-			$rate = 0.1;
-		}elseif($order->attr('total_price') >= 1000){
-			$rate = 0.2;
+		佣金比例按订单总价制定，注意根据时间段不同而返回比例不同，如果阶段性的调整了佣金比例，在此处分时间段返回佣金比例
+		
+		if($order->order_time > '2012-01-01 00:00:00' && $order->order_time <= '2100-12-31 23:59:59'){
+			if($order->attr('total_price') >= 0 && $order->attr('total_price') < 100){
+				$rate = 0.01;
+			}elseif($order->attr('total_price') >= 100 && $order->attr('total_price') < 1000){
+				$rate = 0.1;
+			}elseif($order->attr('total_price') >= 1000){
+				$rate = 0.2;
+			}
+		}
+		elseif($order->order_time > '1998-01-01 00:00:00' && $order->order_time <= '2012-01-01 00:00:00'){
+			if($order->attr('total_price') >= 0 && $order->attr('total_price') < 100){
+				$rate = 0.03;
+			}elseif($order->attr('total_price') >= 100 && $order->attr('total_price') < 1000){
+				$rate = 0.4;
+			}elseif($order->attr('total_price') >= 1000){
+				$rate = 0.5;
+			}
 		}
 		*/
 		
 		/*
 		方法三
-		固定金额佣金
-		$comm = 100;
-		$rate = CPS360_api::round($comm / $order->attr('total_price'),6);
+		固定金额佣金，注意根据时间段不同而返回比例不同，如果阶段性的调整了佣金比例，在此处分时间段返回佣金比例
+		
+		if($order->order_time > '2012-01-01 00:00:00' && $order->order_time <= '2100-12-31 23:59:59'){
+			$comm = 100;
+			$rate = CPS360_api::round($comm / $order->attr('total_price'),6);
+		}
+		elseif($order->order_time > '1998-01-01 00:00:00' && $order->order_time <= '2012-01-01 00:00:00'){
+			$comm = 200;
+			$rate = CPS360_api::round($comm / $order->attr('total_price'),6);	
+		}
 		*/
 
-		$rate = 0.1;
+		//默认全站为统一佣金比例，注意根据时间段不同而返回比例不同，如果阶段性的调整了佣金比例，在此处分时间段返回佣金比例
+		if($order->order_time > '2012-01-01 00:00:00' && $order->order_time <= '2100-12-31 23:59:59'){
+			$rate = 0.1;
+		}
+		elseif($order->order_time > '1998-01-01 00:00:00' && $order->order_time <= '2012-01-01 00:00:00'){
+			$rate = 0.2;
+		}
 		return $rate;
 	}
 
