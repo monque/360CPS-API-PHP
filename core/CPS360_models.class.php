@@ -139,7 +139,8 @@ class CPS360_model_node extends CPS360_model{
 
 	protected $server_price;
 	protected $coupon;
-	protected $total_price;
+	protected $total_price;  // 实际支付总价
+	protected $total_amount; // 商品总价
 	protected $total_comm;
 	protected $commission;
 	protected $p_info;
@@ -159,11 +160,10 @@ class CPS360_model_node extends CPS360_model{
 		$this->order_updtime = $this->_format_date($data['order_updtime']);
 		$this->status = $data['status'];
 
+		$this->total_amount = $this->total_comm = 0;
 		$this->server_price = $this->_format_money($data['server_price'],true);
 		$this->total_price = $this->_format_money($data['total_price']);
 		$this->coupon = $this->_format_money($data['coupon'],true);
-		$this->coupon = $this->coupon > $this->total_price ? $this->total_price : $this->coupon;
-		$this->total_comm = 0;
 
 		//Products
 		$this->product_fill($data['products']);
@@ -174,6 +174,7 @@ class CPS360_model_node extends CPS360_model{
 		$this->products[] = $obj;
 		$this->p_info[] = $obj->to_pinfo();
 		$this->comm_product[] = $obj->to_commission();
+		$this->total_amount += $obj->get_amount();
 		$this->total_comm += $obj->get_commamount();
 		if($obj->attr('commrate') < $this->coupon_minrate && $obj->attr('commrate') > 0 || !isset($this->coupon_minrate)){
 			$this->coupon_minrate = $obj->attr('commrate');
